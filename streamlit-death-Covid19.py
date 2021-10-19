@@ -6,7 +6,7 @@ st.write("""
 
 This app predicts the risk of **Death during Covid-19 ** 
 
-By Pefura-Yone et al. 
+By Pefura-Yone et al 
 """)
 
 st.header('User Input Parameters(please select patients features here)')
