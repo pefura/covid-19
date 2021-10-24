@@ -52,7 +52,7 @@ encoder= OneHotEncoder()
 
 # Reads in saved classification model
 import pickle
-LR = pickle.load(open('C:/Users/DDD/Desktop/data/LR_covid.pkl', 'rb'))
+LR = pickle.load(open('LR_covid.pkl', 'rb'))
 
 # Prediction logistic regression
 prediction = LR.predict(df)
@@ -65,7 +65,7 @@ st.subheader('Logistic regression Probability of death(%)')
 st.write(prediction_proba_percent)
 
 # Prediction catboost
-catboost=pickle.load(open('C:/Users/DDD/Desktop/data/catboost_covid.pkl', 'rb'))
+catboost=pickle.load(open('catboost_covid.pkl', 'rb'))
 prediction_1 = catboost.predict(df)
 prediction_proba_1 = catboost.predict_proba(df)
 prediction_proba_percent_1 = prediction_proba_1 * 100
