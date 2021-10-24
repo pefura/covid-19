@@ -38,7 +38,7 @@ df = user_input_features()
 st.subheader('User Input parameters confirmation')
 st.write(df)
 
-death_covid = pd.read_csv('C:/Users/DDD/Desktop/data/covid_cleaned_1_coded_ML_10percent.csv', header=0)
+death_covid = pd.read_csv('https://raw.githubusercontent.com/pefura/covid-19/main/covid_19_death.csv', header=0)
 
 
 # Slectionner les prédicteurs et la variable réponse
