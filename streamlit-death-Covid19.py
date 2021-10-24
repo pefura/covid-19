@@ -7,7 +7,7 @@ st.write("""
 
 This app predicts the risk of **Death during Covid-19 ** 
 
-By Pefura-Yone et al. 
+By Pefura-Yone et al
 """)
 
 st.header('User Input Parameters(please select patients features here)')
@@ -34,10 +34,11 @@ def user_input_features():
 
 df = user_input_features()
 
+
 st.subheader('User Input parameters confirmation')
 st.write(df)
 
-death_covid = pd.read_csv('https://raw.githubusercontent.com/pefura/covid-19/main/covid_19_death.csv', header=0)
+death_covid = pd.read_csv('C:/Users/DDD/Desktop/data/covid_cleaned_1_coded_ML_10percent.csv', header=0)
 
 
 # Slectionner les prédicteurs et la variable réponse
@@ -46,43 +47,30 @@ y = death_covid['death']
 X = death_covid.drop('death', axis=1)
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
-from sklearn.linear_model import LogisticRegression
-
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.pipeline import make_pipeline
 encoder= OneHotEncoder()
 
-LR= make_pipeline (encoder,LogisticRegression(penalty="l2", solver='lbfgs', max_iter=1000,random_state=1 ))
+# Reads in saved classification model
+import pickle
+LR = pickle.load(open('C:/Users/DDD/Desktop/data/LR_covid.pkl', 'rb'))
 
-
-# fit logistic regression
-
-LR=LR.steps[1][1]
-LR_fit=LR.fit(X_train, y_train)
-
-# Prediction
+# Prediction logistic regression
 prediction = LR.predict(df)
 prediction_proba = LR.predict_proba(df)
-prediction_proba_percent = prediction_proba * 100
+prediction_proba_percent_1 = prediction_proba * 100
 proba = prediction_proba[:, 1]
 prediction_proba_percent = proba * 100
 
 st.subheader('Logistic regression Probability of death(%)')
 st.write(prediction_proba_percent)
 
-# fit Catboost
-from catboost import CatBoostClassifier
-CatBoost= make_pipeline(encoder, CatBoostClassifier(random_state=1))
-
-CatBoost=CatBoost.steps[1][1]
-CatBoostfit=CatBoost.fit(X_train, y_train)
-
-# Prediction
-prediction = CatBoost.predict(df)
-prediction_proba = CatBoost.predict_proba(df)
-prediction_proba_percent = prediction_proba * 100
-proba = prediction_proba[:, 1]
-prediction_proba_percent = proba * 100
+# Prediction catboost
+catboost=pickle.load(open('C:/Users/DDD/Desktop/data/catboost_covid.pkl', 'rb'))
+prediction_1 = catboost.predict(df)
+prediction_proba_1 = catboost.predict_proba(df)
+prediction_proba_percent_1 = prediction_proba_1 * 100
+proba_1 = prediction_proba_1[:, 1]
+prediction_proba_percent_1 = proba_1 * 100
 
 st.subheader('CatBoost Probability of death(%)')
-st.write(prediction_proba_percent)
+st.write(prediction_proba_percent_1)
